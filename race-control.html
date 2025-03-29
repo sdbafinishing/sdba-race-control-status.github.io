@@ -54,35 +54,9 @@
 
         // Function to update UI based on Firebase data
         function updateUI(data) {
-            // Race Control Ready
-            const raceControlBox = document.getElementById("race_control_ready");
-            if (data.RaceControlReady) {
-                raceControlBox.style.backgroundColor = "green";
-                raceControlBox.innerHTML = "📣 Race Control Ready";
-            } else {
-                raceControlBox.style.backgroundColor = "red";
-                raceControlBox.innerHTML = "📣 Race Control NOT Ready";
-            }
-
-            // Starter Ready
-            const starterBox = document.getElementById("starter_ready");
-            if (data.StarterReady) {
-                starterBox.style.backgroundColor = "green";
-                starterBox.innerHTML = "🔫 Starter Ready";
-            } else {
-                starterBox.style.backgroundColor = "red";
-                starterBox.innerHTML = "🔫 Starter NOT Ready";
-            }
-
-            // Finishing Ready
-            const finishingBox = document.getElementById("finishing_ready");
-            if (data.FinishingReady) {
-                finishingBox.style.backgroundColor = "green";
-                finishingBox.innerHTML = "🏁 Finishing Ready";
-            } else {
-                finishingBox.style.backgroundColor = "red";
-                finishingBox.innerHTML = "🏁 Finishing NOT Ready";
-            }
+            document.getElementById("race_control_ready").style.backgroundColor = data.RaceControlReady ? "green" : "red";
+            document.getElementById("starter_ready").style.backgroundColor = data.StarterReady ? "green" : "red";
+            document.getElementById("finishing_ready").style.backgroundColor = data.FinishingReady ? "green" : "red";
         }
 
         // Listen for real-time status updates
@@ -142,12 +116,6 @@
         #finishing_ready {
             background-color: red;
         }
-        .lock-icon {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            font-size: 20px;
-        }
         .btn { padding: 10px 20px; font-size: 18px; margin: 10px; cursor: pointer; }
         #audioButton { font-size: 30px; background: none; border: none; cursor: pointer; }
     </style>
@@ -155,9 +123,9 @@
 <body>
     <h1>Race Control Mode</h1>
 
-    <div id="race_control_ready" class="status-box" onclick="toggleRaceControlReady()">📣 Race Control NOT Ready</div>
-    <div id="starter_ready" class="status-box">🔫 Starter NOT Ready <span class="lock-icon">🔒</span></div>
-    <div id="finishing_ready" class="status-box">🏁 Finishing NOT Ready <span class="lock-icon">🔒</span></div>
+    <div id="race_control_ready" class="status-box" onclick="toggleRaceControlReady()">📣 Race Control</div>
+    <div id="starter_ready" class="status-box">🔫 Starter   🔒</div>
+    <div id="finishing_ready" class="status-box">🏁 Finishing   🔒</div>
 
     <br>
     <button class="btn" onclick="playAlert()">Play Alert</button>
