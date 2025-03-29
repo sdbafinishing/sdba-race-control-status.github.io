@@ -45,7 +45,7 @@
         };
 
         window.playAlert = function() {
-            const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
+            const audio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/emergency-alarm-with-reverb-29431.mp3");
             audio.play();
             set(ref(db, "race_status/RaceControlReady"), false); // Reset status to false when alert is played
         };
