@@ -7,7 +7,7 @@
     <script type="module">
         // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+        import { getDatabase, ref, onValue, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 
         // Firebase configuration (Replace with your actual config)
         const firebaseConfig = {
@@ -20,10 +20,12 @@
             appId: "1:833788584631:web:cdd6697b6378fbb2b46332"
         };
 
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const statusRef = ref(db, "race_status");
+        const alertRef = ref(db, "alertTrigger");
 
         // Function to update UI based on Firebase data
         function updateUI(data) {
@@ -38,6 +40,13 @@
             if (data) updateUI(data);
         });
 
+        // Listen for alert trigger changes
+        onValue(alertRef, (snapshot) => {
+            if (snapshot.exists()) {
+                playAlertSound();
+            }
+        });
+
         // Expose functions globally
         window.toggleRaceControlReady = function() {
             const currentStatus = document.getElementById("race_control_ready").style.backgroundColor === "green";
@@ -45,10 +54,15 @@
         };
 
         window.playAlert = function() {
-            const audio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/emergency-alarm-with-reverb-29431.mp3");
-            audio.play();
+            // Set alertTrigger to a new timestamp to notify all visitors
+            set(alertRef, Date.now());
             set(ref(db, "race_status/RaceControlReady"), false); // Reset status to false when alert is played
         };
+
+        function playAlertSound() {
+            const audio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/emergency-alarm-with-reverb-29431.mp3");
+            audio.play();
+        }
     </script>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
