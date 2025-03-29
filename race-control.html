@@ -87,6 +87,8 @@
             alert("🚨 Alert! Race is not ready.");
         };
 
+        let currentAudio = null
+
         // Function to play alert sound
         function playAlertSound() {
             if (audioUnlocked) {
@@ -110,7 +112,7 @@
         body { font-family: Arial, sans-serif; text-align: center; }
         .status-box {
             width: 200px;
-            height: 100px;
+            height: 150px;
             margin: 20px auto;
             font-size: 20px;
             color: white;
@@ -120,11 +122,8 @@
         }
         #race_control_ready {
             background-color: red;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 8px rgba(0, 0, 0, 0.6);
             transition: box-shadow 0.3s ease;
-        }
-        #race_control_ready:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Darker shadow on hover to indicate it's clickable */
         }
         #starter_ready {
             background-color: red;
@@ -140,7 +139,9 @@
     <h1>Race Control Mode</h1>
 
     <div id="race_control_ready" class="status-box" onclick="toggleRaceControlReady()">📣 Race Control</div>
+    <br>
     <div id="starter_ready" class="status-box">🔫 Starter   🔒</div>
+    <br>
     <div id="finishing_ready" class="status-box">🏁 Finishing   🔒</div>
 
     <br>
@@ -150,7 +151,7 @@
 
     <br><br>
     <button id="audioButton" onclick="unlockAudio()">🔇</button> <!-- Default muted icon -->
-    <div>0.6</div>
+    <div>0.7</div>
 
     <!-- Silent MP3 Audio for Unlocking Permissions -->
     <audio id="silentAudio" style="display:none;" src="https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/silent.mp3"></audio>
