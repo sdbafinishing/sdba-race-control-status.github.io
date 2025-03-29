@@ -20,12 +20,24 @@
             appId: "1:833788584631:web:cdd6697b6378fbb2b46332"
         };
 
-
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const statusRef = ref(db, "race_status");
         const alertRef = ref(db, "alertTrigger");
+
+        let audioUnlocked = false;
+
+        // Unlock audio on first user interaction
+        document.addEventListener("click", () => {
+            if (!audioUnlocked) {
+                const silentAudio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/silent.mp3");
+                silentAudio.play().then(() => {
+                    audioUnlocked = true;
+                    console.log("Audio unlocked!");
+                }).catch(err => console.error("Audio unlock failed:", err));
+            }
+        }, { once: true });
 
         // Function to update UI based on Firebase data
         function updateUI(data) {
@@ -34,34 +46,39 @@
             document.getElementById("finishing_ready").style.backgroundColor = data.FinishingReady ? "green" : "red";
         }
 
-        // Listen for real-time database updates
+        // Listen for real-time status updates
         onValue(statusRef, (snapshot) => {
             const data = snapshot.val();
             if (data) updateUI(data);
         });
 
-        // Listen for alert trigger changes
+        // Listen for alert trigger updates
         onValue(alertRef, (snapshot) => {
             if (snapshot.exists()) {
                 playAlertSound();
             }
         });
 
-        // Expose functions globally
+        // Toggle RaceControlReady status
         window.toggleRaceControlReady = function() {
             const currentStatus = document.getElementById("race_control_ready").style.backgroundColor === "green";
             set(ref(db, "race_status/RaceControlReady"), !currentStatus);
         };
 
+        // Trigger alert and reset RaceControlReady
         window.playAlert = function() {
-            // Set alertTrigger to a new timestamp to notify all visitors
-            set(alertRef, Date.now());
-            set(ref(db, "race_status/RaceControlReady"), false); // Reset status to false when alert is played
+            if (audioUnlocked) {
+                set(alertRef, Date.now());
+                set(ref(db, "race_status/RaceControlReady"), false);
+            }
         };
 
+        // Function to play alert sound
         function playAlertSound() {
-            const audio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/emergency-alarm-with-reverb-29431.mp3");
-            audio.play();
+            if (audioUnlocked) {
+                const audio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/emergency-alarm-with-reverb-29431.mp3");
+                audio.play().catch(err => console.error("Playback failed:", err));
+            }
         }
     </script>
     <style>
@@ -72,6 +89,7 @@
         #finishing_ready { background-color: red; }
         .btn { padding: 10px 20px; font-size: 18px; margin: 10px; cursor: pointer; }
     </style>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
     <h1>Race Control Mode</h1>
