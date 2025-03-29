@@ -30,20 +30,21 @@
         let audioUnlocked = false;
         const audio = new Audio();
 
-        // Function to unlock audio permissions
+        // Function to unlock audio permissions and change icon to unmute
         window.unlockAudio = function() {
-            audio.play().then(() => {
-                // Successfully unlocked audio, change button icon to unmute
-                audioUnlocked = true;
-                document.getElementById("audioButton").innerHTML = "🔊"; // Change to unmuted icon
-                console.log("Audio unlocked!");
-            }).catch(err => {
-                // If the user hasn't interacted yet, show an alert and keep muted state
-                console.error("Audio unlock failed:", err);
-                alert("Please interact with the page to enable sound.");
-            });
+            if (!audioUnlocked) {
+                audio.play().then(() => {
+                    // Successfully unlocked audio, change button icon to unmute
+                    audioUnlocked = true;
+                    document.getElementById("audioButton").innerHTML = "🔊"; // Change to unmuted icon
+                    console.log("Audio unlocked!");
+                }).catch(err => {
+                    // If the user hasn't interacted yet, show an alert and keep muted state
+                    console.error("Audio unlock failed:", err);
+                    alert("Please interact with the page to enable sound.");
+                });
+            }
         };
-
         // Function to update UI based on Firebase data
         function updateUI(data) {
             document.getElementById("race_control_ready").style.backgroundColor = data.RaceControlReady ? "green" : "red";
