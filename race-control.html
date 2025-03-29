@@ -31,7 +31,7 @@
         // Unlock audio on first user interaction
         document.addEventListener("click", () => {
             if (!audioUnlocked) {
-                const silentAudio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/silent.mp3");
+                const silentAudio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/silent.mp3");
                 silentAudio.play().then(() => {
                     audioUnlocked = true;
                     console.log("Audio unlocked!");
