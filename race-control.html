@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Control Mode</title>
+</head>
+<body>
+    <h1>Race Control Mode</h1>
+    <div id="race_control_ready">Loading...</div>
+    <div id="starter_ready">Loading...</div>
+    <div id="finishing_ready">Loading...</div>
+    <button onclick="toggleRaceControlReady()">Toggle Race Control</button>
+    <button onclick="playAlert()">Play Alert</button>
+
+    <button onclick="window.location.href='index.html'">Return to Homepage</button>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
+        // Firebase Config
+        const firebaseConfig = {
+        apiKey: "AIzaSyBmRxbnhGwVeRlzkgCICuBGaMM7jBzWIKo",
+        authDomain: "dbracecontrol.firebaseapp.com",
+        databaseURL: "https://dbracecontrol-default-rtdb.firebaseio.com",
+        projectId: "dbracecontrol",
+        storageBucket: "dbracecontrol.firebasestorage.app",
+        messagingSenderId: "833788584631",
+        appId: "1:833788584631:web:cdd6697b6378fbb2b46332"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const statusRef = ref(db, "race_status");
+
+        // Listen for updates from Firebase and update UI
+        function listenForUpdates() {
+            onValue(statusRef, (snapshot) => {
+                const data = snapshot.val();
+                document.getElementById('race_control_ready').style.backgroundColor = data.RaceControlReady ? "green" : "red";
+                document.getElementById('starter_ready').style.backgroundColor = data.StarterReady ? "green" : "red";
+                document.getElementById('finishing_ready').style.backgroundColor = data.FinishingReady ? "green" : "red";
+            });
+        }
+
+        // Toggle RaceControlReady
+        function toggleRaceControlReady() {
+            const currentStatus = document.getElementById('race_control_ready').style.backgroundColor === "green" ? false : true;
+            set(ref(db, 'race_status/RaceControlReady'), currentStatus);
+        }
+
+        // Play alert sound and set RaceControlReady to false
+        function playAlert() {
+            const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
+            audio.play();
+            set(ref(db, 'race_status/RaceControlReady'), false);
+        }
+
+        // Run real-time listener
+        listenForUpdates();
+    </script>
+</body>
+</html>
