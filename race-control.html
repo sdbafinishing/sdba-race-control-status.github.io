@@ -28,16 +28,16 @@
 
         let audioUnlocked = false;
 
-        // Unlock audio on first user interaction
-        document.addEventListener("click", () => {
-            if (!audioUnlocked) {
-                const silentAudio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/silent.mp3");
-                silentAudio.play().then(() => {
-                    audioUnlocked = true;
-                    console.log("Audio unlocked!");
-                }).catch(err => console.error("Audio unlock failed:", err));
-            }
-        }, { once: true });
+        // Function to unlock audio permissions
+        window.unlockAudio = function() {
+            // Clicking the button will unlock the audio permissions
+            const audio = new Audio();
+            audio.play().then(() => {
+                audioUnlocked = true;
+                document.getElementById("audioButton").innerHTML = "🔊"; // Change to unmuted icon
+                console.log("Audio unlocked!");
+            }).catch(err => console.error("Audio unlock failed:", err));
+        };
 
         // Function to update UI based on Firebase data
         function updateUI(data) {
@@ -88,6 +88,8 @@
         #starter_ready { background-color: red; }
         #finishing_ready { background-color: red; }
         .btn { padding: 10px 20px; font-size: 18px; margin: 10px; cursor: pointer; }
+        #audioButton { font-size: 30px; background: none; border: none; cursor: pointer; }
+    </style>
     </style>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
@@ -100,7 +102,7 @@
 
     <button class="btn" onclick="toggleRaceControlReady()">Toggle Race Control Ready</button>
     <button class="btn" onclick="playAlert()">Play Alert</button>
-    <br>
-    <button class="btn" onclick="window.location.href='index.html'">Return to Home</button>
+    <br><br>
+    <button id="audioButton" onclick="unlockAudio()">🔇</button> <!-- Default muted icon -->
 </body>
 </html>
