@@ -58,30 +58,30 @@
             const raceControlBox = document.getElementById("race_control_ready");
             if (data.RaceControlReady) {
                 raceControlBox.style.backgroundColor = "green";
-                raceControlBox.innerHTML = "📣 Race Control <br> Ready";
+                raceControlBox.innerHTML = "📣 Race Control Ready";
             } else {
                 raceControlBox.style.backgroundColor = "red";
-                raceControlBox.innerHTML = "📣 Race Control <br> NOT Ready";
+                raceControlBox.innerHTML = "📣 Race Control NOT Ready";
             }
 
             // Starter Ready
             const starterBox = document.getElementById("starter_ready");
             if (data.StarterReady) {
                 starterBox.style.backgroundColor = "green";
-                starterBox.innerHTML = "🔫 Starter <br> Ready";
+                starterBox.innerHTML = "🔫 Starter Ready";
             } else {
                 starterBox.style.backgroundColor = "red";
-                starterBox.innerHTML = "🔫 Starter <br> NOT Ready";
+                starterBox.innerHTML = "🔫 Starter NOT Ready";
             }
 
             // Finishing Ready
             const finishingBox = document.getElementById("finishing_ready");
             if (data.FinishingReady) {
                 finishingBox.style.backgroundColor = "green";
-                finishingBox.innerHTML = "🏁 Finishing <br> Ready";
+                finishingBox.innerHTML = "🏁 Finishing Ready";
             } else {
                 finishingBox.style.backgroundColor = "red";
-                finishingBox.innerHTML = "🏁 Finishing <br> NOT Ready";
+                finishingBox.innerHTML = "🏁 Finishing NOT Ready";
             }
         }
 
@@ -155,9 +155,9 @@
 <body>
     <h1>Race Control Mode</h1>
 
-    <div id="race_control_ready" class="status-box" onclick="toggleRaceControlReady()">📣 Race Control <br> NOT Ready</div>
-    <div id="starter_ready" class="status-box">🔫 Starter <br> NOT Ready <span class="lock-icon">🔒</span></div>
-    <div id="finishing_ready" class="status-box">🏁 Finishing <br> NOT Ready <span class="lock-icon">🔒</span></div>
+    <div id="race_control_ready" class="status-box" onclick="toggleRaceControlReady()">📣 Race Control NOT Ready</div>
+    <div id="starter_ready" class="status-box">🔫 Starter NOT Ready <span class="lock-icon">🔒</span></div>
+    <div id="finishing_ready" class="status-box">🏁 Finishing NOT Ready <span class="lock-icon">🔒</span></div>
 
     <br>
     <button class="btn" onclick="playAlert()">Play Alert</button>
