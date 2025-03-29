@@ -42,7 +42,7 @@
                 silentAudioElement.play().then(() => {
                     // Once the silent audio plays, it's unlocked
                     audioUnlocked = true;
-                    document.getElementById("audioButton").innerHTML = "🔊"; // Change to unmuted icon
+                    document.getElementById("audioButton").innerHTML = " "; // Hide the mute iton
                     console.log("Audio unlocked with silent MP3!");
                 }).catch(err => {
                     // If there's an issue, log it and ask the user to interact
@@ -157,7 +157,7 @@
             cursor: not-allowed;
         }
         .btn { padding: 10px 20px; font-size: 18px; margin: 10px; cursor: pointer; }
-        #audioButton { font-size: 30px; background: none; border: none; cursor: pointer; }
+        #audioButton { font-size: 30px; background: none; border: none; }
         #homeButton { font-size: 30px; background: none; border: none; cursor: pointer; }
 
         .bottom-bar {
@@ -203,8 +203,8 @@
     <h1>Race Control Mode</h1>
 
     <div id="race_control_ready" class="status-box" onclick="toggleRaceControlReady()">🎤 Race Control</div>
-    <div id="starter_ready" class="status-box">🔫 Starter     🔒</div>
-    <div id="finishing_ready" class="status-box">🏁 Finishing     🔒</div>
+    <div id="starter_ready" class="status-box">🔫 Starter   🔒</div>
+    <div id="finishing_ready" class="status-box">🏁 Finishing   🔒</div>
 
     <br><br>
     <button class="btn" onclick="playAlert()">Play Alert</button>
