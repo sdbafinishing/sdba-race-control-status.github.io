@@ -4,30 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Race Control Mode</title>
-</head>
-<body>
-    <h1>Race Control Mode</h1>
-    <div id="race_control_ready">Loading...</div>
-    <div id="starter_ready">Loading...</div>
-    <div id="finishing_ready">Loading...</div>
-    <button onclick="toggleRaceControlReady()">Toggle Race Control</button>
-    <button onclick="playAlert()">Play Alert</button>
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 
-    <button onclick="window.location.href='index.html'">Return to Homepage</button>
-
-   <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-      import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
-
-        // Firebase Config
+        // Firebase configuration (Replace with your actual config)
         const firebaseConfig = {
-        apiKey: "AIzaSyBmRxbnhGwVeRlzkgCICuBGaMM7jBzWIKo",
-        authDomain: "dbracecontrol.firebaseapp.com",
-        databaseURL: "https://dbracecontrol-default-rtdb.firebaseio.com",
-        projectId: "dbracecontrol",
-        storageBucket: "dbracecontrol.firebasestorage.app",
-        messagingSenderId: "833788584631",
-        appId: "1:833788584631:web:cdd6697b6378fbb2b46332"
+            apiKey: "AIzaSyBmRxbnhGwVeRlzkgCICuBGaMM7jBzWIKo",
+            authDomain: "dbracecontrol.firebaseapp.com",
+            databaseURL: "https://dbracecontrol-default-rtdb.firebaseio.com",
+            projectId: "dbracecontrol",
+            storageBucket: "dbracecontrol.firebasestorage.app",
+            messagingSenderId: "833788584631",
+            appId: "1:833788584631:web:cdd6697b6378fbb2b46332"
         };
 
         // Initialize Firebase
@@ -35,31 +25,50 @@
         const db = getDatabase(app);
         const statusRef = ref(db, "race_status");
 
-        // Listen for updates from Firebase and update UI
-        function listenForUpdates() {
-            onValue(statusRef, (snapshot) => {
-                const data = snapshot.val();
-                document.getElementById('race_control_ready').style.backgroundColor = data.RaceControlReady ? "green" : "red";
-                document.getElementById('starter_ready').style.backgroundColor = data.StarterReady ? "green" : "red";
-                document.getElementById('finishing_ready').style.backgroundColor = data.FinishingReady ? "green" : "red";
-            });
+        // Function to update UI based on Firebase data
+        function updateUI(data) {
+            document.getElementById("race_control_ready").style.backgroundColor = data.RaceControlReady ? "green" : "red";
+            document.getElementById("starter_ready").style.backgroundColor = data.StarterReady ? "green" : "red";
+            document.getElementById("finishing_ready").style.backgroundColor = data.FinishingReady ? "green" : "red";
         }
 
-        // Toggle RaceControlReady
-        function toggleRaceControlReady() {
-            const currentStatus = document.getElementById('race_control_ready').style.backgroundColor === "green" ? false : true;
-            set(ref(db, 'race_status/RaceControlReady'), currentStatus);
-        }
+        // Listen for real-time database updates
+        onValue(statusRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) updateUI(data);
+        });
 
-        // Play alert sound and set RaceControlReady to false
-        function playAlert() {
+        // Expose functions globally
+        window.toggleRaceControlReady = function() {
+            const currentStatus = document.getElementById("race_control_ready").style.backgroundColor === "green";
+            set(ref(db, "race_status/RaceControlReady"), !currentStatus);
+        };
+
+        window.playAlert = function() {
             const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
             audio.play();
-            set(ref(db, 'race_status/RaceControlReady'), false);
-        }
-
-        // Run real-time listener
-        listenForUpdates();
+            set(ref(db, "race_status/RaceControlReady"), false); // Reset status to false when alert is played
+        };
     </script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .status-box { width: 200px; height: 100px; margin: 20px auto; font-size: 20px; color: white; line-height: 100px; }
+        #race_control_ready { background-color: red; }
+        #starter_ready { background-color: red; }
+        #finishing_ready { background-color: red; }
+        .btn { padding: 10px 20px; font-size: 18px; margin: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Race Control Mode</h1>
+
+    <div id="race_control_ready" class="status-box">Race Control Ready</div>
+    <div id="starter_ready" class="status-box">Starter Ready</div>
+    <div id="finishing_ready" class="status-box">Finishing Ready</div>
+
+    <button class="btn" onclick="toggleRaceControlReady()">Toggle Race Control Ready</button>
+    <button class="btn" onclick="playAlert()">Play Alert</button>
+    <br>
+    <button class="btn" onclick="window.location.href='index.html'">Return to Home</button>
 </body>
 </html>
