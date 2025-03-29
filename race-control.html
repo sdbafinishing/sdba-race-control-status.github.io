@@ -30,8 +30,6 @@
         let audioUnlocked = false;
         const audio = new Audio();
 
-        <audio id="silentAudio" style="display:none;" src="https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/silent.mp3"></audio>
-        
         // Function to unlock audio permissions
         window.unlockAudio = function() {
             console.log("unlockAudio function called!");
@@ -53,7 +51,6 @@
                 });
             }
         };
-
 
         // Function to update UI based on Firebase data
         function updateUI(data) {
@@ -120,7 +117,10 @@
     <button class="btn" onclick="window.location.href='index.html'">Return to Home</button>
 
     <br><br>
-    <button id="audioButton" onclick="console.log('Button clicked!'); unlockAudio();">🔇</button>
-    <div>0.3</div>
+    <button id="audioButton" onclick="unlockAudio()">🔇</button> <!-- Default muted icon -->
+    <div>0.4</div>
+
+    <!-- Silent MP3 Audio for Unlocking Permissions -->
+    <audio id="silentAudio" style="display:none;" src="https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/silent.mp3"></audio>
 </body>
 </html>
