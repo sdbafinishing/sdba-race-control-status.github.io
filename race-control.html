@@ -30,33 +30,30 @@
         let audioUnlocked = false;
         const audio = new Audio();
 
-        //Load page
-        window.onload = function() {
-        console.log("Page loaded successfully");
-
-        document.getElementById("audioButton").addEventListener("click", function() {
-            console.log("Button clicked!");
-            unlockAudio();
-        });
-    };
-
+        <audio id="silentAudio" style="display:none;" src="https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/silent.mp3"></audio>
+        
         // Function to unlock audio permissions
         window.unlockAudio = function() {
-            console.log("unlockAudio function called!");  // Debugging line to check if the function is triggered
+            console.log("unlockAudio function called!");
 
             if (!audioUnlocked) {
-                audio.play().then(() => {
-                    // Successfully unlocked audio, change button icon to unmute
+                // Get the silent audio element
+                const silentAudioElement = document.getElementById("silentAudio");
+
+                // Try to play the silent MP3 to unlock the audio permissions
+                silentAudioElement.play().then(() => {
+                    // Once the silent audio plays, it's unlocked
                     audioUnlocked = true;
                     document.getElementById("audioButton").innerHTML = "🔊"; // Change to unmuted icon
-                    console.log("Audio unlocked!");
+                    console.log("Audio unlocked with silent MP3!");
                 }).catch(err => {
-                    // If the user hasn't interacted yet, show an alert and keep muted state
+                    // If there's an issue, log it and ask the user to interact
                     console.error("Audio unlock failed:", err);
                     alert("Please interact with the page to enable sound.");
                 });
             }
         };
+
 
         // Function to update UI based on Firebase data
         function updateUI(data) {
@@ -95,7 +92,7 @@
         // Function to play alert sound
         function playAlertSound() {
             if (audioUnlocked) {
-                const audio = new Audio("https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO/main/alert.mp3");
+                const audio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/alert.mp3");
                 audio.play().catch(err => console.error("Playback failed:", err));
             }
         }
@@ -124,6 +121,6 @@
 
     <br><br>
     <button id="audioButton" onclick="console.log('Button clicked!'); unlockAudio();">🔇</button>
-    <div>0.2</div>
+    <div>0.3</div>
 </body>
 </html>
