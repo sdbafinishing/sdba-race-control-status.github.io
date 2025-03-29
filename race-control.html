@@ -89,7 +89,7 @@
         // Function to play alert sound
         function playAlertSound() {
             if (audioUnlocked) {
-                const audio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/alert.mp3");
+                const audio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/alert.mp3");
                 audio.play().catch(err => console.error("Playback failed:", err));
             }
         }
@@ -118,9 +118,9 @@
 
     <br><br>
     <button id="audioButton" onclick="unlockAudio()">🔇</button> <!-- Default muted icon -->
-    <div>0.4</div>
+    <div>0.5</div>
 
     <!-- Silent MP3 Audio for Unlocking Permissions -->
-    <audio id="silentAudio" style="display:none;" src="https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/silent.mp3"></audio>
+    <audio id="silentAudio" style="display:none;" src="https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/silent.mp3"></audio>
 </body>
 </html>
