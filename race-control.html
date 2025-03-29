@@ -103,11 +103,27 @@
                 // Play the new alert sound and wait for it to play
                 currentAudio.play().then(() => {
                     // Once sound is played, show pop-up message
-                    alert("🚨 Alert! Race is not ready.");
+                    showToast("🚨 Alert! Race is not ready.");
                 }).catch(err => {
                     console.error("Playback failed:", err);
                 });
             }
+        }
+
+        // Function to show toast message
+        function showToast(message) {
+            const toast = document.createElement("div");
+            toast.classList.add("toast");
+            toast.innerText = message;
+            document.body.appendChild(toast);
+
+            // Show the toast and remove it after 3 seconds
+            setTimeout(() => {
+                toast.style.opacity = 0;
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 1000);
+            }, 3000);
         }
 
     </script>
@@ -123,6 +139,8 @@
             position: relative;
             cursor: pointer;
             text-align: center;
+            border-radius: 5px;
+            
         }
         #race_control_ready {
             background-color: red;
@@ -132,9 +150,11 @@
         }
         #starter_ready {
             background-color: red;
+            cursor: not-allowed;
         }
         #finishing_ready {
             background-color: red;
+            cursor: not-allowed;
         }
         .btn { padding: 10px 20px; font-size: 18px; margin: 10px; cursor: pointer; }
         #audioButton { font-size: 30px; background: none; border: none; cursor: pointer; }
@@ -148,7 +168,7 @@
             display: flex;
             justify-content: space-between;
             padding: 10px;
-            background-color: #333;
+            background-color: #E7E9EB;
             color: white;
         }
 
@@ -163,14 +183,28 @@
             cursor: not-allowed;
             opacity: 0.5;
         }
+
+        .toast {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: red;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
     </style>
 </head>
 <body>
     <h1>Race Control Mode</h1>
 
-    <div id="race_control_ready" class="status-box" onclick="toggleRaceControlReady()">📣 Race Control</div>
-    <div id="starter_ready" class="status-box">🔫 Starter   🔒</div>
-    <div id="finishing_ready" class="status-box">🏁 Finishing   🔒</div>
+    <div id="race_control_ready" class="status-box" onclick="toggleRaceControlReady()">🎤 Race Control</div>
+    <div id="starter_ready" class="status-box">🔫 Starter     🔒</div>
+    <div id="finishing_ready" class="status-box">🏁 Finishing     🔒</div>
 
     <br><br>
     <button class="btn" onclick="playAlert()">Play Alert</button>
