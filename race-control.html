@@ -90,8 +90,18 @@
         // Function to play alert sound
         function playAlertSound() {
             if (audioUnlocked) {
-                const audio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/alert.mp3");
-                audio.play().catch(err => console.error("Playback failed:", err));
+                // If there is already an audio playing, stop it
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0; // Reset audio position
+                }
+
+                // Create new audio instance for the new alert sound
+                currentAudio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/alert.mp3");
+
+                // Play the new alert sound
+                currentAudio.play().catch(err => console.error("Playback failed:", err));
+                alert("🚨 Alert! Race is not ready.");
             }
         }
 
@@ -140,6 +150,7 @@
 
     <br><br>
     <button id="audioButton" onclick="unlockAudio()">🔇</button> <!-- Default muted icon -->
+    <div>0.6</div>
 
     <!-- Silent MP3 Audio for Unlocking Permissions -->
     <audio id="silentAudio" style="display:none;" src="https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/silent.mp3"></audio>
