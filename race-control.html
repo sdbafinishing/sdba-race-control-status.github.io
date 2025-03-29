@@ -84,7 +84,6 @@
             unlockAudio();
             set(alertRef, Date.now());
             set(ref(db, "race_status/RaceControlReady"), false);
-            alert("🚨 Alert! Race is not ready.");
         };
 
         let currentAudio = null
@@ -101,9 +100,13 @@
                 // Create new audio instance for the new alert sound
                 currentAudio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/alert.mp3");
 
-                // Play the new alert sound
-                currentAudio.play().catch(err => console.error("Playback failed:", err));
-                alert("🚨 Alert! Race is not ready.");
+                // Play the new alert sound and wait for it to play
+                currentAudio.play().then(() => {
+                    // Once sound is played, show pop-up message
+                    alert("🚨 Alert Race is not ready.");
+                }).catch(err => {
+                    console.error("Playback failed:", err);
+                });
             }
         }
 
@@ -112,13 +115,14 @@
         body { font-family: Arial, sans-serif; text-align: center; }
         .status-box {
             width: 200px;
-            height: 150px;
+            height: 130px;
             margin: 20px auto;
             font-size: 20px;
             color: white;
             line-height: 100px;
             position: relative;
             cursor: pointer;
+            text-align: center;
         }
         #race_control_ready {
             background-color: red;
@@ -151,7 +155,7 @@
 
     <br><br>
     <button id="audioButton" onclick="unlockAudio()">🔇</button> <!-- Default muted icon -->
-    <div>0.7</div>
+    <div>0.8</div>
 
     <!-- Silent MP3 Audio for Unlocking Permissions -->
     <audio id="silentAudio" style="display:none;" src="https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/silent.mp3"></audio>
