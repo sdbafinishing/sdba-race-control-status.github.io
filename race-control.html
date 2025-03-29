@@ -43,10 +43,9 @@
                     // Once the silent audio plays, it's unlocked
                     audioUnlocked = true;
                     document.getElementById("audioButton").innerHTML = " "; // Hide the mute iton
+                    document.getElementById("audioButton").disabled = true;
                     console.log("Audio unlocked with silent MP3!");
                 }).catch(err => {
-                    // If there's an issue, log it and ask the user to interact
-                    console.error("Audio unlock failed:", err);
                     alert("Audio unlock failed. Please try again.");
                 });
             }
@@ -77,6 +76,20 @@
             unlockAudio();
             const currentStatus = document.getElementById("race_control_ready").style.backgroundColor === "green";
             set(ref(db, "race_status/RaceControlReady"), !currentStatus);
+        };
+
+        // Toggle StarterReady status
+        window.toggleStarterReady = function() {
+            unlockAudio();
+            const currentStatus = document.getElementById("starter_ready").style.backgroundColor === "green";
+            set(ref(db, "race_status/StarterReady"), !currentStatus);
+        };
+
+        // Toggle FinishingReady status
+        window.toggleFinishingReady = function() {
+            unlockAudio();
+            const currentStatus = document.getElementById("finishing_ready").style.backgroundColor === "green";
+            set(ref(db, "race_status/FinishingReady"), !currentStatus);
         };
 
         // Trigger alert and reset RaceControlReady
@@ -139,7 +152,7 @@
             position: relative;
             cursor: pointer;
             text-align: center;
-            border-radius: 5px;
+            border-radius: 20px;
             
         }
         #race_control_ready {
@@ -150,11 +163,15 @@
         }
         #starter_ready {
             background-color: red;
-            cursor: not-allowed;
+            box-shadow: 0 8px 8px rgba(0, 0, 0, 0.6);
+            transition: box-shadow 0.3s ease;
+            cursor: pointer
         }
         #finishing_ready {
             background-color: red;
-            cursor: not-allowed;
+            box-shadow: 0 8px 8px rgba(0, 0, 0, 0.6);
+            transition: box-shadow 0.3s ease;
+            cursor: pointer
         }
         .btn { padding: 10px 20px; font-size: 18px; margin: 10px; cursor: pointer; }
         #audioButton { font-size: 30px; background: none; border: none; }
@@ -203,17 +220,17 @@
     <h1>Race Control Mode</h1>
 
     <div id="race_control_ready" class="status-box" onclick="toggleRaceControlReady()">🎤 Race Control</div>
-    <div id="starter_ready" class="status-box">🔫 Starter   🔒</div>
-    <div id="finishing_ready" class="status-box">🏁 Finishing   🔒</div>
+    <div id="starter_ready" class="status-box" onclick="toggleStarterReady()">🔫 Starter</div>
+    <div id="finishing_ready" class="status-box" onclick="toggleFinishReady()">🏁 Finishing</div>
 
     <br><br>
-    <button class="btn" onclick="playAlert()">Play Alert</button>
+    <button class="btn" onclick="playAlert()">🚨 Alert - Stop Race</button>
 
     <div class="bottom-bar">
         <button id="audioButton" onclick="unlockAudio()">🔇</button>
         <button id="homeButton" onclick="window.location.href='home.html'">🏠</button>
     </div>
-    <div>0.9</div>
+    <div>0.10</div>
 
     <!-- Silent MP3 Audio for Unlocking Permissions -->
     <audio id="silentAudio" style="display:none;" src="https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/silent.mp3"></audio>
