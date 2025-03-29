@@ -28,16 +28,20 @@
         const alertRef = ref(db, "alertTrigger");
 
         let audioUnlocked = false;
+        const audio = new Audio();
 
         // Function to unlock audio permissions
         window.unlockAudio = function() {
-            // Clicking the button will unlock the audio permissions
-            const audio = new Audio();
             audio.play().then(() => {
+                // Successfully unlocked audio, change button icon to unmute
                 audioUnlocked = true;
                 document.getElementById("audioButton").innerHTML = "🔊"; // Change to unmuted icon
                 console.log("Audio unlocked!");
-            }).catch(err => console.error("Audio unlock failed:", err));
+            }).catch(err => {
+                // If the user hasn't interacted yet, show an alert and keep muted state
+                console.error("Audio unlock failed:", err);
+                alert("Please interact with the page to enable sound.");
+            });
         };
 
         // Function to update UI based on Firebase data
@@ -62,22 +66,22 @@
 
         // Toggle RaceControlReady status
         window.toggleRaceControlReady = function() {
+            unlockAudio();
             const currentStatus = document.getElementById("race_control_ready").style.backgroundColor === "green";
             set(ref(db, "race_status/RaceControlReady"), !currentStatus);
         };
 
         // Trigger alert and reset RaceControlReady
         window.playAlert = function() {
-            if (audioUnlocked) {
-                set(alertRef, Date.now());
-                set(ref(db, "race_status/RaceControlReady"), false);
-            }
+            unlockAudio();
+            set(alertRef, Date.now());
+            set(ref(db, "race_status/RaceControlReady"), false);
         };
 
         // Function to play alert sound
         function playAlertSound() {
             if (audioUnlocked) {
-                const audio = new Audio("https://raw.githubusercontent.com/sdbafinishing/sdbafinishing.github.io/main/Assets/emergency-alarm-with-reverb-29431.mp3");
+                const audio = new Audio("https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO/main/alert.mp3");
                 audio.play().catch(err => console.error("Playback failed:", err));
             }
         }
@@ -90,9 +94,11 @@
         #finishing_ready { background-color: red; }
         .btn { padding: 10px 20px; font-size: 18px; margin: 10px; cursor: pointer; }
         #audioButton { font-size: 30px; background: none; border: none; cursor: pointer; }
-    </style> 
+    </style>
 </head>
 <body>
+    <h1>Race Control Mode</h1>
+
     <div id="race_control_ready" class="status-box">Race Control Ready</div>
     <div id="starter_ready" class="status-box">Starter Ready</div>
     <div id="finishing_ready" class="status-box">Finishing Ready</div>
