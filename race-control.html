@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Race Control Mode</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <script type="module">
         // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
@@ -89,12 +90,9 @@
         #finishing_ready { background-color: red; }
         .btn { padding: 10px 20px; font-size: 18px; margin: 10px; cursor: pointer; }
         #audioButton { font-size: 30px; background: none; border: none; cursor: pointer; }
-    </style>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    </style> 
 </head>
 <body>
-    <h1>Race Control Mode</h1>
-
     <div id="race_control_ready" class="status-box">Race Control Ready</div>
     <div id="starter_ready" class="status-box">Starter Ready</div>
     <div id="finishing_ready" class="status-box">Finishing Ready</div>
@@ -103,6 +101,7 @@
     <button class="btn" onclick="playAlert()">Play Alert</button>
     <br>
     <button class="btn" onclick="window.location.href='index.html'">Return to Home</button>
+
     <br><br>
     <button id="audioButton" onclick="unlockAudio()">🔇</button> <!-- Default muted icon -->
 </body>
