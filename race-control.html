@@ -84,6 +84,7 @@
             unlockAudio();
             set(alertRef, Date.now());
             set(ref(db, "race_status/RaceControlReady"), false);
+            alert("🚨 Alert! Race is not ready.");
         };
 
         // Function to play alert sound
@@ -109,6 +110,11 @@
         }
         #race_control_ready {
             background-color: red;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease;
+        }
+        #race_control_ready:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Darker shadow on hover to indicate it's clickable */
         }
         #starter_ready {
             background-color: red;
