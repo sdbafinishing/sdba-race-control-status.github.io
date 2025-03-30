@@ -109,13 +109,13 @@
             toast.innerText = message;
             document.body.appendChild(toast);
 
-            // Show the toast and remove it after 3 seconds
+            // Show the toast and remove it after 5 seconds
             setTimeout(() => {
                 toast.style.opacity = 0;
                 setTimeout(() => {
                     document.body.removeChild(toast);
                 }, 1000);
-            }, 3000);
+            }, 5000);
         }
 
     </script>
@@ -176,12 +176,12 @@
 
         .toast {
             position: fixed;
-            bottom: 150px;
+            top: 200px;
             left: 50%;
             transform: translateX(-50%);
             background-color: #333;
             color: red;
-            padding: 50px;
+            padding: 100px 50px;
             border-radius: 5px;
             font-size: 16px;
             opacity: 1;
